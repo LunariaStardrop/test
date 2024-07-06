@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fuck</title>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 20px;
+        background-color: #121212; /* Dark background for contrast */
+        color: #ffffff; /* Main text color */
+        line-height: 1.6; /* Improves readability */
+        font-size: 1.1em; /* Base font size */
+    }
+
+    .question {
+        margin-bottom: 1.125rem; /* Consistent spacing using rem units for better responsiveness */
+        color: #d1d1d1; /* Softer white for questions */
+        font-size: 1.2em; /* Slightly larger font for emphasis */
+        font-style: italic; /* Italic style for added emphasis */
+        transition: color 0.3s ease-in-out; /* Smooth transition on hover for better UX */
+    }
+
+    .question:hover {
+        color: #ffffff; /* Brighter white on hover for better readability */
+    }
+
+    .result {
+        margin-top: 1.75rem; /* Consistent spacing using rem units */
+        font-weight: bold; /* Bold for emphasis */
+        color: #76ff03; /* Vibrant green for improved visibility */
+        font-size: 1.4em; /* Slightly larger font for greater emphasis */
+        text-transform: uppercase; /* Uppercase for importance */
+        transition: color 0.3s ease-in-out; /* Smooth transition on hover for better UX */
+    }
+
+    .result:hover {
+        color: #64dd17; /* Slightly darker green on hover for a hover effect */
+    }
+
+    /* Optional enhancements for accessibility and user experience */
+    @media (max-width: 768px) {
+        body {
+            margin: 10px;
+            font-size: 1em; /* Adjust font size for smaller screens */
+        }
+
+        .question, .result {
+            font-size: 1.0em; /* Adjust these elements for better readability on smaller screens */
+        }
+    }
+</style>
+</head>
+<body>
+    <h1>FUCK this shit</h1>
+
+    <div id="questions-container">
+        <form id="personality-form">
+            <div class="question">
+                <label>Крокодил больше зелёный или больше длинный</label>
+                <input type="radio" name="q6" value="false"> Больше зелёный
+                <input type="radio" name="q6" value="true"> Больше длинный
+            </div>
+            <div class="question">
+                <label>Сколько у вас IQ?</label>
+                <input type="radio" name="q1" value="true"> Не верю в IQ
+                <input type="radio" name="q1" value="false"> Меньше 100
+                <input type="radio" name="q1" value="false"> 100-115
+                <input type="radio" name="q1" value="false"> Больше 115
+            </div>
+            <div class="question">
+                <label>Переключите ли вы рычаг, чтобы поезд не сбил пять человек, но при этом сбил одного?</label>
+                <input type="radio" name="q2" value="false"> Да
+                <input type="radio" name="q2" value="true"> Нет
+            </div>
+            <div class="question">
+                <label>Готовы ли вы убить всех своих друзей, чтобы спасти свою жизнь?</label>
+                <input type="radio" name="q3" value="true"> Да
+                <input type="radio" name="q3" value="false"> Нет
+            </div>
+            <div class="question">
+                <label>Что важнее, упорство или талант?</label>
+                <input type="radio" name="q4" value="true"> Талант
+                <input type="radio" name="q4" value="false"> Упорство
+            </div>
+            <div class="question">
+                <label>Когда вам удобнее бодрствовать?</label>
+                <input type="radio" name="q5" value="true"> Ночью
+                <input type="radio" name="q5" value="false"> Днём
+            </div>
+            <div class="question">
+                <label>Кто виноват?</label>
+                <input type="radio" name="q7" value="false"> Мошенник и его схема
+                <input type="radio" name="q7" value="true"> Жертва схемы
+            </div>
+            <div class="question">
+                <label>В крипте будущее?</label>
+                <input type="radio" name="q8" value="true"> Да
+                <input type="radio" name="q8" value="false"> В крипте прошлое
+            </div>
+            <div class="question">
+                <label>В доброте слабость или сила?</label>
+                <input type="radio" name="q9" value="true"> Слабость
+                <input type="radio" name="q9" value="false"> Сила
+            </div>
+            <div class="question">
+                <label>Бог есть?</label>
+                <input type="radio" name="q10" value="true"> Нет
+                <input type="radio" name="q10" value="false"> Да
+                <input type="radio" name="q10" value="false"> Не знаю
+            </div>
+            <button type="button" onclick="calculateResult()">Показать хэш ответов</button>
+        </form>
+    </div>
+
+    <div id="result" class="result"></div>
+
+    <script>
+        function xorEncrypt(input, key) {
+            let output = '';
+            for (let i = 0; i < input.length; i++) {
+                output += String.fromCharCode(input.charCodeAt(i) ^ key.charCodeAt(i % key.length));
+            }
+            return output;
+        }
+
+        function base64Encode(input) {
+            return btoa(input);
+        }
+
+        function calculateResult() {
+            let answers = [];
+            const form = document.getElementById('personality-form');
+            const questions = form.querySelectorAll('input[type="radio"]');
+
+            let questionCount = 0;
+            let lastQuestion = null;
+
+            questions.forEach(question => {
+                const name = question.getAttribute('name');
+                if (name !== lastQuestion) {
+                    questionCount++;
+                    lastQuestion = name;
+                }
+            });
+
+            for (let i = 1; i <= questionCount; i++) {
+                let answer = form.querySelector(`input[name="q${i}"]:checked`);
+                if (answer) {
+                    answers.push(answer.value === 'true' ? '1' : '0');
+                } else {
+                    alert(`Please answer question ${i}`);
+                    return;
+                }
+            }
+
+            let answersString = answers.join('');
+            let encryptedAnswers = xorEncrypt(answersString, "secure");
+            let encodedAnswers = base64Encode(encryptedAnswers);
+
+            document.getElementById('result').innerText = "Отправь этот хэш мне: " + encodedAnswers;
+
+            console.log("Original Answers: ", answersString);
+            console.log("Encoded Answers: ", encodedAnswers);
+        }
+    </script>
+</body>
+</html>
